@@ -22,7 +22,7 @@ var library = (function(){
 		filter : function(list, test) {
             var newArray = []
              for (var i = 0; i < list.length; i++) {
-               if (test(list[i])) {
+               if (test(list[i]) === true) {
                     newArray.push(list[i]);
                }
             }
@@ -55,39 +55,71 @@ var library = (function(){
 			});
 		},
 		reduce : function(list, iterator, accumulator) {
-            // console.log(accumulator);
-            //      for (var i = 0; i < list.length; i++) {
-            //         if (accumulator == 0) {
-            //             accumulator = list[i];
-            //             console.log(accumulator);
-            //         }
-            //         accumulator = iterator(list[i], accumulator);
-            //         console.log(accumulator);
-            //         return accumulator;
-            //     }
-                
-            console.log(list);
-            console.log(iterator);
-            console.log(accumulator);
-            if (accumulator === undefined) {
-                accumulator = list[0];
-            }
-            
-            accumulator = accumulator + list.forEach(iterator(list));
-            console.log(accumulator);
-            return accumulator; 
+                  for (var i = 0; i < list.length; i++) {
+                    if (accumulator === undefined) {
+                        accumulator = list[i];
+                    }
+                    accumulator = iterator(list[i], accumulator);
+                 }
+                return accumulator;
         },
 		every : function(list, iterator) {
-            // console.log(list);
-            // console.log(iterator);
+           if (iterator === undefined) {
+               iterator = this.identity;
+           }
+            
+            for (var i = 0; i < list.length; i++) {
+                if (iterator(list[i]) == false) {
+                    return false;
+                } 
+                
+            }
+            return true;
         },
 
-		some : function(list, iterator) {},
-
-		contains : function(list, target) {},
+		some : function(list, iterator) {
+            if (iterator === undefined) {
+               iterator = this.identity;
+           } else {
+               
+           }
+            for (var i = 0; i < list.length; i++) {
+                if (iterator(list[i]) == true) {
+                    return true;
+                } 
+             } 
+            return false;
+        },
+		contains : function(list, target) {
+              var x;
+                for (x in list) {
+                    if (list[x] == target) {
+                        return true;
+                    } 
+                }
+                return false;
+        },
 
 		// Advanced Collections --- Complete Functions Below
-		shuffle : function(array) {},
+		shuffle : function(array) {
+            console.log(array);
+            var newArray = [];
+            function checkNum(number) {
+                return number !== selectElement; 
+            }
+            while (newArray.length < array.length) {
+                var ranNum = Math.floor(Math.random() * array.length);
+                var selectElement = array[ranNum];
+                console.log(ranNum);
+                console.log(selectElement);
+                if (newArray.every(checkNum)) {
+                    
+                    newArray.push(selectElement);
+                    console.log(newArray);
+                }
+            }
+            return newArray;
+        },
 
 		invoke : function(list, methodName, args) {},
 
